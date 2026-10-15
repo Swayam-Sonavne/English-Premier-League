@@ -26,16 +26,7 @@ from utils.db import load_row_counts, load_table_preview, q
 from utils.filters import dwm_label
 from utils.schema_diagrams import draw_star_schema, draw_snowflake_schema, draw_galaxy_schema
 
-# ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("""
-<div style="background:linear-gradient(135deg, #0d1b2a, #1e3a5f); padding:20px; border-radius:10px; margin-bottom:18px; color:#ffffff;">
-    <span style="background:#e8b84b; color:#0d1b2a; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:800;">ADMIN LAYER • LAB 1</span>
-    <h1 style="color:#ffffff; margin:6px 0 2px 0; font-size:2rem;">🗄️ Data Warehouse Architecture & Schemas</h1>
-    <p style="color:#cdd8e3; font-size:0.95rem; margin:0;">
-        Academic reference and structural inspection — Star, Snowflake, and Galaxy schemas, table dictionary, and syllabus matrix.
-    </p>
-</div>
-""", unsafe_allow_html=True)
+
 
 dwm_label("Data Warehouse Design", 1)
 

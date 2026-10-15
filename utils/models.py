@@ -68,7 +68,7 @@ def get_regression_model(features: tuple, target: str = "Goals_For") -> dict:
     Changing display filters must NOT call this function again.
     """
     from utils.db import load_team_match
-    tm = load_team_match()
+    tm = load_team_match().copy()
 
     X = tm[list(features)]
     y = tm[target]
@@ -145,7 +145,7 @@ def get_classification_model(
     Changing display filters must NOT call this function again.
     """
     from utils.db import load_team_match, load_dim_team
-    tm = load_team_match()
+    tm = load_team_match().copy()
     teams_map = load_dim_team().set_index("Team_ID")["Team_Name"].to_dict()
     tm["Opp_Team_Name"] = tm["Opp_ID"].map(teams_map)
 
@@ -345,7 +345,7 @@ def get_apriori_transactions(
     Returns (transactions_df, n_transactions, scope_label).
     """
     from utils.db import load_team_match
-    tm = load_team_match()
+    tm = load_team_match().copy()
 
     if scope == "team" and scope_value:
         d = tm[tm["Team_Name"] == scope_value].copy()

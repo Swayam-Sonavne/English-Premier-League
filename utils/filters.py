@@ -133,9 +133,9 @@ def show_in_sample_warning(season: str, train_seasons: list[str]) -> bool:
 def dwm_label(method: str, lab: int | str = "") -> None:
     """Render a clean analytical method badge."""
     st.markdown(
-        f"""<div style="display:inline-block;background:#1e3a5f;color:#a8c8f0;
-        padding:4px 10px;border-radius:4px;font-size:0.78rem;margin-bottom:8px;">
-        🔬 Method: <b>{method}</b></div>""",
+        f"""<div style="display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);color:var(--mute);
+        padding:5px 12px;border-radius:30px;font-size:0.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:8px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--pk)"></span>Method · <b style="color:var(--ink)">{method}</b></div>""",
         unsafe_allow_html=True,
     )
 

@@ -42,8 +42,8 @@ html, body, .stApp {
 
 /* Card Container */
 .pa-card, [class*="st-key-card_"] {
-    background: #FFFFFF;
-    border: 1px solid #D5DBE6;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 16px 18px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -53,8 +53,8 @@ html, body, .stApp {
 
 /* Metric Cards */
 .pa-metric-box {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 18px 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -62,20 +62,20 @@ html, body, .stApp {
     height: 100%;
 }
 .pa-metric-title {
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.8rem;
     font-weight: 500;
     margin-bottom: 4px;
 }
 .pa-metric-val {
-    color: #0F172A;
+    color: var(--ink);
     font-size: 1.85rem;
     font-weight: 700;
     line-height: 1.15;
     margin-bottom: 4px;
 }
 .pa-metric-sub {
-    color: #94A3B8;
+    color: var(--mute);
     font-size: 0.76rem;
 }
 
@@ -86,17 +86,17 @@ html, body, .stApp {
 }
 .pa-table th {
     text-align: left;
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.78rem;
     font-weight: 600;
     padding: 8px 10px 10px 10px;
-    border-bottom: 1px solid #E2E8F0;
+    border-bottom: 1px solid var(--line);
 }
 .pa-table td {
     padding: 11px 10px;
-    color: #0F172A;
+    color: var(--ink);
     font-size: 0.86rem;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid var(--line);
 }
 .pa-table tr:last-child td {
     border-bottom: none;
@@ -104,7 +104,7 @@ html, body, .stApp {
 
 /* Primary Button */
 div[data-testid="stButton"] > button[kind="primary"] {
-    background-color: #2563EB !important;
+    background-color: var(--acc) !important;
     color: #FFFFFF !important;
     font-weight: 600 !important;
     border-radius: 8px !important;
@@ -122,8 +122,7 @@ div[data-testid="stRadio"] > label {
 # ── Top Header Bar ──────────────────────────────────────────────────────────
 c_head_l, c_head_r = st.columns([3, 1])
 with c_head_l:
-    st.markdown("<h1 style='color:#0F172A; font-size:2.2rem; font-weight:700; margin:0 0 4px 0;'>Performance Analysis</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#64748B; font-size:0.92rem; margin:0 0 16px 0;'>Regression analysis of team performance • Lab 4</p>", unsafe_allow_html=True)
+    pass
 
 with c_head_r:
     st.markdown("""
@@ -131,7 +130,7 @@ with c_head_r:
         <div style="background:#ECFDF5; color:#059669; font-size:0.78rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
             <span style="height:7px; width:7px; background:#10B981; border-radius:50%; display:inline-block;"></span> System Online
         </div>
-        <div style="background:#F1F5F9; color:#1E293B; font-size:0.82rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
+        <div style="background:var(--chip); color:var(--ink); font-size:0.82rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
             👤 Admin
         </div>
     </div>
@@ -146,19 +145,19 @@ with st.container(key="card_pa_controls"):
     cp1, cp2, cp3, cp4, cp5 = st.columns([1.3, 1.1, 1.25, 1.25, 0.9])
 
     with cp1:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Target variable</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Target variable</div>", unsafe_allow_html=True)
         target_var = st.selectbox("Target variable", ["Goals scored", "Points scored"], index=0, label_visibility="collapsed", key="pa_target_var")
 
     with cp2:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Model</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Model</div>", unsafe_allow_html=True)
         model_type = st.radio("Model", ["Simple", "Multiple"], index=1, horizontal=True, label_visibility="collapsed", key="pa_model_type")
 
     with cp3:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Highlight team</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Highlight team</div>", unsafe_allow_html=True)
         hl_team = st.selectbox("Highlight team", teams_list, index=0, label_visibility="collapsed", key="pa_hl_team")
 
     with cp4:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Highlight season</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Highlight season</div>", unsafe_allow_html=True)
         hl_season = st.selectbox("Highlight season", seasons_list, index=0, label_visibility="collapsed", key="pa_hl_season")
 
     with cp5:
@@ -169,7 +168,7 @@ with st.container(key="card_pa_controls"):
     st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
     f_row_l, f_row_r = st.columns([0.8, 4.2])
     with f_row_l:
-        st.markdown("<div style='font-size:0.8rem; font-weight:600; color:#64748B; padding-top:4px;'>Features</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.8rem; font-weight:600; color:var(--mute); padding-top:4px;'>Features</div>", unsafe_allow_html=True)
 
     with f_row_r:
         fc1, fc2, fc3, fc4, fc5 = st.columns(5)
@@ -185,7 +184,7 @@ with st.container(key="card_pa_controls"):
             use_home = st.checkbox("Home / Away", value=False, key="pa_feat_home", disabled=(model_type == "Simple"))
 
     st.markdown("""
-    <div style="font-size:0.75rem; color:#94A3B8; margin-top:10px; border-top:1px solid #F1F5F9; padding-top:8px;">
+    <div style="font-size:0.75rem; color:var(--mute); margin-top:10px; border-top:1px solid var(--line); padding-top:8px;">
     The model is trained on all 20,520 team-match records and tested on a held-out 25%. Team and season only change what is highlighted below.
     </div>
     """, unsafe_allow_html=True)
@@ -384,15 +383,15 @@ with c_comp:
     
     custom_row_html = ""
     if is_custom:
-        custom_row_html = f"""<tr style="background:#EFF6FF;">
-<td style="font-weight:700; color:#1D4ED8;">Active Selection ({len(active_features)} features)</td>
-<td style="font-weight:700; color:#1D4ED8;">{r2_val:.3f}</td>
-<td style="font-weight:700; color:#1D4ED8;">{mae_val:.3f}</td>
-<td style="font-weight:700; color:#1D4ED8;">{rmse_val:.3f}</td>
+        custom_row_html = f"""<tr style="background:var(--chip);">
+<td style="font-weight:700; color:var(--acc);">Active Selection ({len(active_features)} features)</td>
+<td style="font-weight:700; color:var(--acc);">{r2_val:.3f}</td>
+<td style="font-weight:700; color:var(--acc);">{mae_val:.3f}</td>
+<td style="font-weight:700; color:var(--acc);">{rmse_val:.3f}</td>
 </tr>"""
 
     st.markdown(f"""<div class="pa-card">
-<h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0 0 12px 0;">Model comparison</h3>
+<h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0 0 12px 0;">Model comparison</h3>
 <table class="pa-table">
 <thead>
 <tr>
@@ -403,13 +402,13 @@ with c_comp:
 </tr>
 </thead>
 <tbody>
-<tr style="{'background:#EFF6FF;' if model_type == 'Simple' else ''}">
+<tr style="{'background:var(--chip);' if model_type == 'Simple' else ''}">
 <td style="{'font-weight:700;' if model_type == 'Simple' else ''}">Simple (Shots)</td>
 <td>{r2_simp:.3f}</td>
 <td>{mae_simp:.3f}</td>
 <td>{rmse_simp:.3f}</td>
 </tr>
-<tr style="{'background:#EFF6FF;' if model_type == 'Multiple' and not is_custom else ''}">
+<tr style="{'background:var(--chip);' if model_type == 'Multiple' and not is_custom else ''}">
 <td style="font-weight:700;">Multiple (4 features)</td>
 <td style="font-weight:700;">{r2_mult:.3f}</td>
 <td style="font-weight:700;">{mae_mult:.3f}</td>
@@ -418,7 +417,7 @@ with c_comp:
 {custom_row_html}
 </tbody>
 </table>
-<div style="font-size:0.78rem; color:#64748B; margin-top:14px;">
+<div style="font-size:0.78rem; color:var(--mute); margin-top:14px;">
 Adding corners, possession and fouls raises R² from {r2_simp:.2f} to {r2_mult:.2f}.
 </div>
 </div>""", unsafe_allow_html=True)
@@ -437,11 +436,11 @@ with c_coef:
             pct = min(100, int((abs(val) / max_c) * 100))
             pct = max(pct, 2)  # minimum visible line
             coef_rows_html += f"""<div style="display:flex; align-items:center; margin-bottom:12px; font-size:0.85rem;">
-<div style="width:95px; color:#1E293B; font-weight:500;">{feat}</div>
+<div style="width:95px; color:var(--ink); font-weight:500;">{feat}</div>
 <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 14px; position:relative;">
-<div style="background:#2563EB; height:8px; width:{pct}%; border-radius:4px;"></div>
+<div style="background:var(--acc); height:8px; width:{pct}%; border-radius:4px;"></div>
 </div>
-<div style="width:48px; text-align:right; font-weight:700; color:#0F172A; font-size:0.86rem;">{val:.3f}</div>
+<div style="width:48px; text-align:right; font-weight:700; color:var(--ink); font-size:0.86rem;">{val:.3f}</div>
 </div>"""
         st.markdown(coef_rows_html, unsafe_allow_html=True)
 
@@ -453,33 +452,33 @@ intercept_val = reg_res["intercept"]
 
 st.markdown(f"""<div class="pa-card">
 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; cursor:pointer;">
-<span style="font-size:0.8rem; color:#64748B;">▼</span>
-<span style="color:#0F172A; font-size:0.96rem; font-weight:700;">Technical details</span>
+<span style="font-size:0.8rem; color:var(--mute);">▼</span>
+<span style="color:var(--ink); font-size:0.96rem; font-weight:700;">Technical details</span>
 </div>
 <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; font-size:0.82rem;">
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Algorithm</div>
-<div style="color:#0F172A; font-weight:500;">Linear regression, ordinary least squares (scikit-learn)</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Algorithm</div>
+<div style="color:var(--ink); font-weight:500;">Linear regression, ordinary least squares (scikit-learn)</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Target</div>
-<div style="color:#0F172A; font-weight:500;">{target_col}</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Target</div>
+<div style="color:var(--ink); font-weight:500;">{target_col}</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Features</div>
-<div style="color:#0F172A; font-weight:500;">{feat_str}</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Features</div>
+<div style="color:var(--ink); font-weight:500;">{feat_str}</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Intercept</div>
-<div style="color:#0F172A; font-weight:500;">{intercept_val:.3f}</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Intercept</div>
+<div style="color:var(--ink); font-weight:500;">{intercept_val:.3f}</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Split</div>
-<div style="color:#0F172A; font-weight:500;">75% train, 25% test, random_state 0</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Split</div>
+<div style="color:var(--ink); font-weight:500;">75% train, 25% test, random_state 0</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Data</div>
-<div style="color:#0F172A; font-weight:500;">Fact_Team_Match, 20,520 rows</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Data</div>
+<div style="color:var(--ink); font-weight:500;">Fact_Team_Match, 20,520 rows</div>
 </div>
 </div>
 </div>""", unsafe_allow_html=True)

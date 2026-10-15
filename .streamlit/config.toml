@@ -2,3 +2,8 @@
 enableStaticServing = true
 headless = true
 port = 8501
+
+[theme]
+base = "light"
+primaryColor = "#FF3E8E"
+font = "sans serif"

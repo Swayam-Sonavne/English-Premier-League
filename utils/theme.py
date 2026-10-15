@@ -1,337 +1,233 @@
 """
-utils/theme.py — Universal Dark / Light Theme Engine for EPL Analytics & DWM Platform
-Provides token-based theme management, dynamic CSS variable injection, and Plotly theme styling.
+utils/theme.py — Light / dark theme engine in the landing page's editorial style.
+
+Colours are exposed twice: as Python tokens (for Plotly and inline templates) and as CSS
+variables (--bg, --card, --chip, --ink, --mute, --faint, --line, --acc, --pk, --cy) that the
+page stylesheets reference, so one switch re-themes everything.
 """
 import streamlit as st
 
-# ── EXACT TOKEN DEFINITIONS ──────────────────────────────────────────────────
+PK = "#FF3E8E"  # pink accent, shared by both modes
+
 THEME_TOKENS = {
     "dark": {
-        "page_bg": "#0A0F1C",             # Page background
-        "sidebar_bg": "#060A14",          # Sidebar
-        "card_bg": "#111A2E",             # Card / input / KPI strip
-        "chip_bg": "#17223A",             # Chip and tag fill, table highlight
-        "card_border": "#25314A",         # Card border
-        "divider": "#1E2940",             # Dividers, bar tracks, chart grid lines
-        "chip_border": "#2B3957",         # Chip border
-        "input_border": "#34425F",        # Input border, "Level" segment
-        "text_primary": "#E6ECF7",        # Primary text
-        "text_muted": "#94A3B8",          # Muted text (labels, captions)
-        "text_faint": "#64748B",          # Faint text (axis ticks, chart rings)
-        "primary_blue": "#3B82F6",        # Primary blue (selected nav, buttons, Player A)
-        "amber": "#F59E0B",               # Amber (Player B, assists)
-        "online_dot": "#16A34A",          # Online status dot
-        "form_played": "#2B4A86",         # "played" cells in season form strip
-        "form_goal": "#F59E0B",           # Goals
-        "form_assist": "#3B82F6",         # Assists
-        "form_both": "#8B5CF6",           # Goal + assist
-        "form_dnp": "#17223A",            # Not in squad / empty
-        "zscore_pos": "#3B82F6",          # Positive z-score
-        "zscore_neg": "#8A94A6",          # Negative z-score
+        "page_bg": "#09080D",
+        "sidebar_bg": "#09080D",
+        "card_bg": "#131119",
+        "chip_bg": "#1C1924",
+        "card_border": "#26232F",
+        "divider": "#211E29",
+        "chip_border": "#2E2A38",
+        "input_border": "#363243",
+        "grid_line": "rgba(255,255,255,0.05)",
+        "text_primary": "#F3F2F6",
+        "text_muted": "#A9A6B4",
+        "text_faint": "#6E6B7A",
+        "primary_blue": "#9D7BFF",        # main accent (kept name for existing pages)
+        "amber": PK,                      # secondary accent
+        "cyan": "#3CD3EE",
+        "online_dot": "#22C55E",
+        "form_played": "#3A2E5C",
+        "form_goal": PK,
+        "form_assist": "#9D7BFF",
+        "form_both": "#3CD3EE",
+        "form_dnp": "#1C1924",
+        "zscore_pos": "#9D7BFF",
+        "zscore_neg": "#6E6B7A",
         "white": "#FFFFFF",
         "is_dark": True,
     },
     "light": {
-        "page_bg": "#EEF2F8",             # Page background
-        "sidebar_bg": "#0B1220",          # Sidebar
-        "card_bg": "#FFFFFF",             # Card / input / KPI strip
-        "chip_bg": "#F4F7FC",             # Chip and tag fill, table highlight
-        "card_border": "#D5DBE6",         # Card border
-        "divider": "#E6EAF0",             # Dividers, bar tracks, chart grid lines
-        "chip_border": "#DDE3EE",         # Chip border
-        "input_border": "#C5CDDB",        # Input border, "Level" segment
-        "text_primary": "#0B1220",        # Primary text
-        "text_muted": "#5B6578",          # Muted text (labels, captions)
-        "text_faint": "#9AA4B2",          # Faint text (axis ticks, chart rings)
-        "primary_blue": "#2563EB",        # Primary blue (selected nav, buttons, Player A)
-        "amber": "#D97706",               # Amber (Player B, assists)
-        "online_dot": "#16A34A",          # Online status dot
-        "form_played": "#BFD0F7",         # "played" cells in season form strip
-        "form_goal": "#D97706",           # Goals
-        "form_assist": "#2563EB",         # Assists
-        "form_both": "#7C3AED",           # Goal + assist
-        "form_dnp": "#F1F5F9",            # Not in squad / empty
-        "zscore_pos": "#2563EB",          # Positive z-score
-        "zscore_neg": "#64748B",          # Negative z-score
+        "page_bg": "#F3F2F6",
+        "sidebar_bg": "#09080D",
+        "card_bg": "#FFFFFF",
+        "chip_bg": "#ECEBF1",
+        "card_border": "#E3E1E9",
+        "divider": "#ECEAF0",
+        "chip_border": "#DEDBE6",
+        "input_border": "#D3D0DC",
+        "grid_line": "rgba(9,8,13,0.06)",
+        "text_primary": "#09080D",
+        "text_muted": "#5F5C6B",
+        "text_faint": "#9B98A6",
+        "primary_blue": "#3A1B7A",
+        "amber": PK,
+        "cyan": "#13A8C8",
+        "online_dot": "#16A34A",
+        "form_played": "#D9D1EE",
+        "form_goal": PK,
+        "form_assist": "#3A1B7A",
+        "form_both": "#13A8C8",
+        "form_dnp": "#ECEBF1",
+        "zscore_pos": "#3A1B7A",
+        "zscore_neg": "#9B98A6",
         "white": "#FFFFFF",
         "is_dark": False,
-    }
+    },
 }
 
 
 def init_theme():
-    """Initialise theme in session state if not already set."""
     if "theme_mode" not in st.session_state:
         st.session_state["theme_mode"] = "light"
 
 
 def get_theme_mode() -> str:
-    """Return 'light' or 'dark'."""
     init_theme()
     return st.session_state.get("theme_mode", "light")
 
 
 def get_theme_tokens() -> dict:
-    """Return the active token dictionary for python calculations & inline templates."""
-    mode = get_theme_mode()
-    return THEME_TOKENS.get(mode, THEME_TOKENS["light"])
+    return THEME_TOKENS.get(get_theme_mode(), THEME_TOKENS["light"])
 
 
 def toggle_theme():
-    """Toggle between light and dark mode and trigger rerun."""
     init_theme()
     st.session_state["theme_mode"] = "dark" if st.session_state["theme_mode"] == "light" else "light"
     st.rerun()
 
 
 def render_theme_toggle_button(key="sb_theme_toggle"):
-    """Render a sleek sidebar toggle button for light/dark mode."""
+    """Kept for older call sites; the top bar now owns the toggle."""
     mode = get_theme_mode()
-    btn_label = "🌙 Dark Mode" if mode == "light" else "☀️ Light Mode"
-    if st.button(btn_label, use_container_width=True, key=key, type="secondary"):
+    if st.button("Dark mode" if mode == "light" else "Light mode", use_container_width=True, key=key, type="secondary"):
         toggle_theme()
 
 
 def inject_theme_css():
-    """
-    Injects comprehensive CSS rules based on the active theme tokens.
-    Uses the exact 3-step surface ladder (page -> card -> chip).
-    """
     t = get_theme_tokens()
-    is_dark = t["is_dark"]
-
+    dark = t["is_dark"]
     st.markdown(f"""
-    <style>
-    /* Global App Background & Typography */
-    html, body, .stApp {{
-        background-color: {t['page_bg']} !important;
-        color: {t['text_primary']} !important;
-        transition: background-color 0.2s ease, color 0.2s ease;
-    }}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap');
+:root, .stApp {{
+  --bg:{t['page_bg']}; --card:{t['card_bg']}; --chip:{t['chip_bg']}; --ink:{t['text_primary']};
+  --mute:{t['text_muted']}; --faint:{t['text_faint']}; --line:{t['card_border']}; --gl:{t['grid_line']};
+  --acc:{t['primary_blue']}; --pk:{PK}; --cy:{t['cyan']}; --nav:{'#1A1722' if dark else '#09080D'};
+  --bar:{'#E2E5EA' if dark else '#0F0E14'}; --barline:{'#09080D' if dark else 'rgba(255,255,255,.24)'};
+  --brand:{'#5E6B7A' if dark else '#B7C0CC'}; --pill:{'#FFFFFF' if dark else '#1C1A24'}; --pillink:{'#09080D' if dark else '#F3F2F6'};
+  --barfaint:{'#9B98A6' if dark else '#4A4757'};
+}}
+/* reruns: never show the previous screen's leftovers (Streamlit keeps them faded until replaced) */
+[data-stale="true"] {{ opacity:0 !important; transition:opacity .2s ease .3s !important; pointer-events:none !important; }}
+[data-stale="false"] {{ transition:opacity .2s ease !important; }}
+.st-key-topbar [data-stale="true"], .st-key-pghead [data-stale="true"] {{ display:none !important; }}
+.stElementContainer:has(iframe[height="0"]) {{ display:none !important; }}
+/* page change: current content settles back while the next page loads, then the new page glides in */
+body.pg-leave .stMain .stElementContainer:not(.st-key-topbar *):not(.st-key-subnav *) {{
+  opacity:.25 !important; transform:translateY(-6px) scale(.995); transition:opacity .25s ease, transform .25s ease !important; }}
+body.pg-enter .stMain .stElementContainer:not(.st-key-topbar *):not(.st-key-subnav *) {{
+  animation:pg-in .5s cubic-bezier(.2,.8,.2,1) both; }}
+body.pg-enter .stMain .stElementContainer:not(.st-key-topbar *):nth-child(n+3) {{ animation-delay:.05s; }}
+body.pg-enter .stMain .stElementContainer:not(.st-key-topbar *):nth-child(n+5) {{ animation-delay:.1s; }}
+@keyframes pg-in {{ from {{ opacity:0; transform:translateY(14px); }} to {{ opacity:1; transform:none; }} }}
+@media (prefers-reduced-motion: reduce) {{
+  body.pg-leave .stMain .stElementContainer, body.pg-enter .stMain .stElementContainer {{ animation:none !important; transform:none !important; }} }}
+html, body, .stApp {{ background:var(--bg) !important; color:var(--ink) !important; font-family:'Inter',sans-serif !important; }}
+[data-testid="stAppViewContainer"], [data-testid="stMain"], .stMain, [data-testid="stHeader"] {{ background:transparent !important; }}
+[data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"],
+[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], [data-testid="stSidebarNav"] {{ display:none !important; }}
 
-    /* Global Headings & Text */
-    h1, h2, h3, h4, h5, h6 {{
-        color: {t['text_primary']} !important;
-    }}
-    p, span, label, div {{
-        color: inherit;
-    }}
-    .stCaption, [data-testid="stCaptionContainer"] {{
-        color: {t['text_muted']} !important;
-    }}
-    hr {{
-        border-color: {t['divider']} !important;
-    }}
+/* vertical grid lines, as on the landing page */
+.stApp::before {{ content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:repeating-linear-gradient(90deg,transparent 0,transparent calc(100%/7 - 1px),var(--gl) calc(100%/7 - 1px),var(--gl) calc(100%/7)); }}
+[data-testid="stAppViewContainer"] {{ position:relative; z-index:1; }}
+.block-container {{ padding-top:.6rem !important; padding-bottom:.6rem !important; max-width:1440px !important; }}
+.stMain [data-testid="stVerticalBlock"] {{ gap:.55rem; }}
+.stMain [data-testid="stHorizontalBlock"] {{ gap:.6rem; }}
+[class*="st-key-card_"] {{ padding:12px 14px !important; margin:0 !important; gap:.4rem !important; height:100%; }}
+div[data-baseweb="select"] > div {{ min-height:34px !important; }}
+.stMain [data-testid="stPlotlyChart"] {{ margin:0 !important; }}
 
-    /* Universal Cards Across All Pages (3-Step Surface Ladder) */
-    .admin-card, .pa-card, .ta-card, .mo-card, .pe-card, .exp-card, .explorer-card,
-    .olap-card, .dw-card, .stat-card, .highlight-card, .player-hero-card,
-    div[data-testid="stExpander"], [class*="st-key-card_"] {{
-        background-color: {t['card_bg']} !important;
-        border: 1px solid {t['card_border']} !important;
-        border-radius: 12px !important;
-        box-shadow: { '0 4px 16px rgba(0,0,0,0.5)' if is_dark else '0 1px 3px rgba(0,0,0,0.03)' } !important;
-        color: {t['text_primary']} !important;
-    }}
+/* typography */
+.stMain h1, .stMain h2, .stMain h3 {{ font-family:'Anton',sans-serif !important; font-weight:400 !important; text-transform:uppercase;
+  letter-spacing:.01em !important; color:var(--ink) !important; line-height:1.02 !important; }}
+.stMain h1 {{ font-size:clamp(30px,3.4vw,48px) !important; }}
+.stMain h2 {{ font-size:1.55rem !important; }}
+.stMain h3 {{ font-size:1.2rem !important; }}
+.stMain h4, .stMain h5, .stMain h6 {{ color:var(--ink) !important; font-family:'Inter',sans-serif !important; }}
+.stMain p, .stMain li, .stMain label, .stMain span, .stMain td, .stMain th {{ color:inherit; }}
+.stMain [data-testid="stMarkdownContainer"] {{ color:var(--ink); }}
+.stCaption, [data-testid="stCaptionContainer"], [data-testid="stCaptionContainer"] p {{ color:var(--mute) !important; }}
+hr {{ border-color:var(--line) !important; }}
+a {{ color:var(--acc); }}
 
-    [class*="st-key-card_"] {{
-        padding: 16px 18px !important;
-        margin-bottom: 16px !important;
-        box-sizing: border-box !important;
-    }}
-    [class*="st-key-card_"] p {{
-        margin-bottom: 2px !important;
-    }}
-    [class*="st-key-card_"] .stCaption, [class*="st-key-card_"] [data-testid="stCaptionContainer"] {{
-        margin-bottom: 8px !important;
-    }}
+/* cards: flat, thin rule, square-ish corners */
+.admin-card, .pa-card, .ta-card, .mo-card, .pe-card, .exp-card, .explorer-card, .olap-card, .dw-card, .stat-card,
+.highlight-card, .player-hero-card, div[data-testid="stExpander"], [class*="st-key-card_"],
+.ta-metric-box, .mo-metric-box, .pa-metric-box, .pe-metric-box, .kpi-metric-box, div[data-testid="stMetric"], div[data-testid="metric-container"] {{
+  background:var(--card) !important; border:1px solid var(--line) !important; border-radius:6px !important;
+  box-shadow:none !important; color:var(--ink) !important; }}
+div[data-testid="stMetric"] {{ padding:14px 16px !important; }}
+[data-testid="stMetricValue"], [data-testid="stMetricValue"] * {{ font-family:'Anton',sans-serif !important; color:var(--ink) !important; font-weight:400 !important; }}
+[data-testid="stMetricValue"] {{ font-size:clamp(1.3rem,2vw,1.8rem) !important; }}
+[data-testid="stMetricLabel"] p {{ color:var(--mute) !important; text-transform:uppercase; letter-spacing:.12em; font-size:.7rem !important; }}
+.ta-metric-title, .mo-metric-title, .pa-metric-title, .pe-metric-title, .kpi-title, .stat-card-title, .highlight-label {{
+  color:var(--mute) !important; text-transform:uppercase; letter-spacing:.12em; font-size:.7rem !important; }}
+.ta-metric-val, .mo-metric-val, .pa-metric-val, .pe-metric-val, .kpi-val, .kpi-value, .stat-card-value, .highlight-value {{
+  color:var(--ink) !important; font-family:'Anton',sans-serif !important; font-weight:400 !important; letter-spacing:.01em; }}
+.ta-metric-sub, .mo-metric-sub, .pa-metric-sub, .pe-metric-sub, .kpi-sub, .highlight-sub {{ color:var(--faint) !important; }}
+.kpi-icon-wrap, .meta-pill, .ta-badge, .pa-badge, .mo-badge, .pe-badge, .rank-pill {{
+  background:var(--chip) !important; border:1px solid var(--line) !important; color:var(--mute) !important; }}
+.meta-pill b, .rank-pill b {{ color:var(--ink) !important; }}
+.mo-tab-wrap, .ta-seg-ctrl {{ background:var(--chip) !important; border:1px solid var(--line) !important; }}
+.mo-tab-btn, .ta-seg-btn {{ color:var(--mute) !important; }}
+.mo-tab-btn.active, .ta-seg-btn.active {{ background:var(--ink) !important; color:var(--bg) !important; }}
 
-    /* Metric Boxes & KPI Strips */
-    .ta-metric-box, .mo-metric-box, .pa-metric-box, .pe-metric-box, .kpi-metric-box,
-    div[data-testid="metric-container"] {{
-        background-color: {t['card_bg']} !important;
-        border: 1px solid {t['card_border']} !important;
-        border-radius: 12px !important;
-        color: {t['text_primary']} !important;
-    }}
+/* tables */
+.pa-table th, .ta-table th, .mo-table th, .pe-table th, .exp-table th, .custom-table th, .status-table th {{
+  color:var(--mute) !important; border-bottom:1px solid var(--line) !important; background:transparent !important;
+  text-transform:uppercase; letter-spacing:.1em; font-size:.68rem !important; }}
+.pa-table td, .ta-table td, .mo-table td, .pe-table td, .exp-table td, .custom-table td, .status-table td {{
+  color:var(--ink) !important; border-bottom:1px solid var(--line) !important; }}
+.pa-table tr:hover td, .ta-table tr:hover td, .mo-table tr:hover td, .pe-table tr:hover td {{ background:var(--chip) !important; }}
+div[data-testid="stDataFrame"], [data-testid="stTable"] {{ border:1px solid var(--line) !important; border-radius:6px !important; }}
+{'div[data-testid="stDataFrame"] canvas, div[data-testid="stDataFrame"] [class*="dvn-"] {filter:invert(.9) hue-rotate(180deg);}' if dark else ''}
 
-    /* KPI / Metric Values & Titles */
-    .ta-metric-title, .mo-metric-title, .pa-metric-title, .pe-metric-title, .kpi-title,
-    .stat-card-title, .highlight-label {{
-        color: {t['text_muted']} !important;
-    }}
-    .ta-metric-val, .mo-metric-val, .pa-metric-val, .pe-metric-val, .kpi-val,
-    .stat-card-value, .highlight-value {{
-        color: {t['text_primary']} !important;
-    }}
-    .ta-metric-sub, .mo-metric-sub, .pa-metric-sub, .pe-metric-sub, .kpi-sub,
-    .highlight-sub {{
-        color: {t['text_faint']} !important;
-    }}
-    .kpi-icon-wrap {{
-        background-color: {t['chip_bg']} !important;
-        border: 1px solid {t['chip_border']} !important;
-    }}
+/* inputs */
+div[data-baseweb="select"] > div, div[data-baseweb="input"], div[data-baseweb="input"] > div, div[data-baseweb="textarea"],
+div[data-baseweb="base-input"], .stNumberInput input, .stDateInput input {{
+  background:var(--card) !important; border-color:var(--line) !important; color:var(--ink) !important; border-radius:4px !important; }}
+div[data-baseweb="select"] span, div[data-baseweb="input"] input, textarea {{ color:var(--ink) !important; }}
+span[data-baseweb="tag"] {{ background:var(--chip) !important; border:1px solid var(--line) !important; color:var(--ink) !important; }}
+div[data-baseweb="popover"], ul[role="listbox"], li[role="option"] {{ background:var(--card) !important; color:var(--ink) !important; }}
+li[role="option"]:hover {{ background:var(--chip) !important; }}
+[data-testid="stWidgetLabel"] p, .stMain label p {{ color:var(--mute) !important; font-size:.78rem !important; font-weight:600 !important; }}
+.stCheckbox label span, .stRadio label span, .stRadio label p, .stCheckbox label p {{ color:var(--ink) !important; }}
+div[data-baseweb="slider"] div[role="slider"] {{ background:var(--pk) !important; }}
 
-    /* Meta Pills & Badges (Chip Level in 3-Step Ladder) */
-    .meta-pill {{
-        background-color: {t['chip_bg']} !important;
-        color: {t['text_muted']} !important;
-        border: 1px solid {t['chip_border']} !important;
-    }}
-    .meta-pill b {{
-        color: {t['text_primary']} !important;
-    }}
-    .ta-badge, .pa-badge, .mo-badge, .pe-badge {{
-        background-color: {t['chip_bg']} !important;
-        color: {t['text_muted']} !important;
-        border: 1px solid {t['chip_border']} !important;
-    }}
-    .rank-pill {{
-        background-color: {t['chip_bg']} !important;
-        border: 1px solid {t['chip_border']} !important;
-        color: {t['text_muted']} !important;
-    }}
-    .rank-pill b {{
-        color: {t['text_primary']} !important;
-    }}
+/* buttons */
+.stMain div[data-testid="stButton"] > button, .stMain div[data-testid="stDownloadButton"] > button, .stMain div[data-testid="stFormSubmitButton"] > button {{
+  border-radius:3px !important; font-weight:600 !important; letter-spacing:.04em; }}
+.stMain div[data-testid="stButton"] > button[kind="primary"], .stMain div[data-testid="stFormSubmitButton"] > button {{
+  background:var(--pk) !important; color:#fff !important; border:0 !important; }}
+.stMain div[data-testid="stButton"] > button[kind="primary"]:hover {{ background:#E52A78 !important; }}
+.stMain div[data-testid="stButton"] > button[kind="secondary"] {{ background:var(--card) !important; color:var(--ink) !important; border:1px solid var(--line) !important; }}
+.stMain div[data-testid="stButton"] > button[kind="secondary"]:hover {{ border-color:var(--ink) !important; }}
 
-    /* Segmented Controls */
-    .mo-tab-wrap, .ta-seg-ctrl {{
-        background-color: {t['chip_bg']} !important;
-        border: 1px solid {t['input_border']} !important;
-    }}
-    .mo-tab-btn, .ta-seg-btn {{
-        color: {t['text_muted']} !important;
-    }}
-    .mo-tab-btn.active, .ta-seg-btn.active {{
-        background-color: {t['primary_blue']} !important;
-        color: {t['white']} !important;
-    }}
+/* tabs */
+button[data-baseweb="tab"] p {{ color:var(--mute) !important; font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:.78rem !important; }}
+button[data-baseweb="tab"][aria-selected="true"] p {{ color:var(--ink) !important; }}
+div[data-baseweb="tab-highlight"] {{ background:var(--pk) !important; }}
+div[data-baseweb="tab-border"] {{ background:var(--line) !important; }}
 
-    /* Tables */
-    .pa-table, .ta-table, .mo-table, .pe-table, .exp-table, .custom-table {{
-        width: 100% !important;
-        border-collapse: collapse !important;
-    }}
-    .pa-table th, .ta-table th, .mo-table th, .pe-table th, .exp-table th, .custom-table th {{
-        color: {t['text_muted']} !important;
-        border-bottom: 1px solid {t['card_border']} !important;
-        background-color: transparent !important;
-    }}
-    .pa-table td, .ta-table td, .mo-table td, .pe-table td, .exp-table td, .custom-table td {{
-        color: {t['text_primary']} !important;
-        border-bottom: 1px solid {t['divider']} !important;
-    }}
-    .pa-table tr:hover td, .ta-table tr:hover td, .mo-table tr:hover td, .pe-table tr:hover td {{
-        background-color: { 'rgba(255,255,255,0.03)' if is_dark else 'rgba(0,0,0,0.01)' } !important;
-    }}
-
-    /* Streamlit Interactive DataFrames */
-    div[data-testid="stDataFrame"], [data-testid="stTable"] {{
-        background-color: {t['card_bg']} !important;
-        border: 1px solid {t['card_border']} !important;
-        border-radius: 8px !important;
-    }}
-
-    /* Form & Input Controls */
-    div[data-baseweb="select"] > div {{
-        background-color: {t['card_bg']} !important;
-        border-color: {t['input_border']} !important;
-        color: {t['text_primary']} !important;
-    }}
-    div[data-baseweb="select"] span {{
-        color: {t['text_primary']} !important;
-    }}
-    span[data-baseweb="tag"] {{
-        background-color: {t['chip_bg']} !important;
-        border: 1px solid {t['chip_border']} !important;
-        color: {t['text_primary']} !important;
-    }}
-    div[data-baseweb="input"] > div {{
-        background-color: {t['card_bg']} !important;
-        border-color: {t['input_border']} !important;
-        color: {t['text_primary']} !important;
-    }}
-    div[data-baseweb="input"] input {{
-        color: {t['text_primary']} !important;
-    }}
-    div[data-baseweb="popover"], ul[role="listbox"] {{
-        background-color: {t['card_bg']} !important;
-        border: 1px solid {t['card_border']} !important;
-        color: {t['text_primary']} !important;
-    }}
-    li[role="option"] {{
-        background-color: {t['card_bg']} !important;
-        color: {t['text_primary']} !important;
-    }}
-    li[role="option"]:hover {{
-        background-color: {t['chip_bg']} !important;
-    }}
-
-    /* Primary Action Buttons */
-    div[data-testid="stButton"] > button[kind="primary"] {{
-        background-color: {t['primary_blue']} !important;
-        color: {t['white']} !important;
-        font-weight: 600 !important;
-        border: none !important;
-        border-radius: 8px !important;
-    }}
-    div[data-testid="stButton"] > button[kind="primary"]:hover {{
-        background-color: { '#2563EB' if is_dark else '#1D4ED8' } !important;
-    }}
-
-    /* Tabs Styling */
-    button[data-baseweb="tab"] {{
-        color: {t['text_muted']} !important;
-    }}
-    button[data-baseweb="tab"][aria-selected="true"] {{
-        color: {t['primary_blue']} !important;
-        font-weight: 600 !important;
-    }}
-    div[data-baseweb="tab-highlight"] {{
-        background-color: {t['primary_blue']} !important;
-    }}
-    div[data-baseweb="tab-border"] {{
-        background-color: {t['card_border']} !important;
-    }}
-
-    /* Checkbox & Radio Labels */
-    .stCheckbox label span, .stRadio label span {{
-        color: {t['text_primary']} !important;
-    }}
-
-    /* Streamlit Code & Pre Blocks */
-    pre, code {{
-        background-color: {t['chip_bg']} !important;
-        color: {t['primary_blue']} !important;
-        border: 1px solid {t['card_border']} !important;
-    }}
-
-    /* Alerts */
-    div[data-testid="stAlert"] {{
-        background-color: {t['card_bg']} !important;
-        border: 1px solid {t['card_border']} !important;
-        color: {t['text_primary']} !important;
-    }}
-
-    /* Sidebar Background */
-    [data-testid="stSidebar"] {{
-        background-color: {t['sidebar_bg']} !important;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
+pre, code {{ background:var(--chip) !important; color:var(--acc) !important; border:1px solid var(--line) !important; }}
+div[data-testid="stAlert"] {{ background:var(--card) !important; border:1px solid var(--line) !important; border-left:3px solid var(--acc) !important; color:var(--ink) !important; border-radius:4px !important; }}
+div[data-testid="stAlert"] p {{ color:var(--ink) !important; }}
+div[data-testid="stAlert"] > div, div[data-testid="stAlertContainer"] {{ background:transparent !important; color:var(--ink) !important; }}
+div[data-testid="stExpander"] summary p {{ color:var(--ink) !important; font-weight:600; }}
+</style>
+""", unsafe_allow_html=True)
 
 
 def get_plotly_theme_layout() -> dict:
-    """Return standard Plotly layout overrides for dark/light mode."""
     t = get_theme_tokens()
     return {
         "paper_bgcolor": "rgba(0,0,0,0)",
         "plot_bgcolor": "rgba(0,0,0,0)",
-        "font": dict(color=t["text_muted"], family="sans-serif"),
+        "font": dict(color=t["text_muted"], family="Inter, sans-serif"),
         "grid_color": t["divider"],
-        "legend_bg": "rgba(17, 26, 46, 0.9)" if t["is_dark"] else "rgba(255, 255, 255, 0.9)",
+        "legend_bg": "rgba(0,0,0,0)",
         "tokens": t,
         "is_dark": t["is_dark"],
     }

@@ -70,7 +70,7 @@ def load_dim_referee() -> pd.DataFrame:
 
 
 # ── fact loaders ────────────────────────────────────────────────────────────
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)  # shared, not copied per call: big frames, read-only
 def load_fact_match() -> pd.DataFrame:
     """Fact_Match joined with all its dimensions."""
     return q("""
@@ -93,7 +93,7 @@ def load_fact_match() -> pd.DataFrame:
     """)
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)  # shared, not copied per call: big frames, read-only
 def load_team_match() -> pd.DataFrame:
     """
     Fact_Team_Match joined with Dim_Team and Dim_Season.
@@ -114,7 +114,7 @@ def load_team_match() -> pd.DataFrame:
     """)
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_resource(show_spinner=False)  # shared, not copied per call: big frames, read-only
 def load_player_perf() -> pd.DataFrame:
     """
     Fact_Player_Performance joined with Dim_Player, Dim_Position,

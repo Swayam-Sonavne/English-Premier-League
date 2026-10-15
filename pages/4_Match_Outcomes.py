@@ -41,8 +41,8 @@ html, body, .stApp {
 
 /* Card Container */
 .mo-card, [class*="st-key-card_"] {
-    background: #FFFFFF;
-    border: 1px solid #D5DBE6;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 16px 18px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -52,8 +52,8 @@ html, body, .stApp {
 
 /* Metric Cards */
 .mo-metric-box {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 18px 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -61,20 +61,20 @@ html, body, .stApp {
     height: 100%;
 }
 .mo-metric-title {
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.8rem;
     font-weight: 500;
     margin-bottom: 4px;
 }
 .mo-metric-val {
-    color: #0F172A;
+    color: var(--ink);
     font-size: 1.85rem;
     font-weight: 700;
     line-height: 1.15;
     margin-bottom: 4px;
 }
 .mo-metric-sub {
-    color: #94A3B8;
+    color: var(--mute);
     font-size: 0.76rem;
 }
 
@@ -85,17 +85,17 @@ html, body, .stApp {
 }
 .mo-table th {
     text-align: left;
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.78rem;
     font-weight: 600;
     padding: 8px 10px 10px 10px;
-    border-bottom: 1px solid #E2E8F0;
+    border-bottom: 1px solid var(--line);
 }
 .mo-table td {
     padding: 11px 10px;
-    color: #0F172A;
+    color: var(--ink);
     font-size: 0.86rem;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid var(--line);
 }
 .mo-table tr:last-child td {
     border-bottom: none;
@@ -103,7 +103,7 @@ html, body, .stApp {
 
 /* Primary Button */
 div[data-testid="stButton"] > button[kind="primary"] {
-    background-color: #2563EB !important;
+    background-color: var(--acc) !important;
     color: #FFFFFF !important;
     font-weight: 600 !important;
     border-radius: 8px !important;
@@ -120,13 +120,13 @@ div[data-testid="stButton"] > button[kind="primary"] {
 }
 .cm-header-cell {
     text-align: center;
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.75rem;
     font-weight: 600;
     padding-bottom: 4px;
 }
 .cm-row-label {
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.75rem;
     font-weight: 600;
     width: 40px;
@@ -147,8 +147,7 @@ div[data-testid="stButton"] > button[kind="primary"] {
 # ── Top Header Bar ──────────────────────────────────────────────────────────
 c_head_l, c_head_r = st.columns([3, 1])
 with c_head_l:
-    st.markdown("<h1 style='color:#0F172A; font-size:2.2rem; font-weight:700; margin:0 0 4px 0;'>Match Outcomes</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#64748B; font-size:0.92rem; margin:0 0 16px 0;'>Classification of match results • Decision Tree and Naive Bayes • Labs 5–6</p>", unsafe_allow_html=True)
+    pass
 
 with c_head_r:
     st.markdown("""
@@ -156,7 +155,7 @@ with c_head_r:
         <div style="background:#ECFDF5; color:#059669; font-size:0.78rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
             <span style="height:7px; width:7px; background:#10B981; border-radius:50%; display:inline-block;"></span> System Online
         </div>
-        <div style="background:#F1F5F9; color:#1E293B; font-size:0.82rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
+        <div style="background:var(--chip); color:var(--ink); font-size:0.82rem; font-weight:600; padding:5px 12px; border-radius:20px; display:flex; align-items:center; gap:6px;">
             👤 Admin
         </div>
     </div>
@@ -171,34 +170,34 @@ with st.container(key="card_mo_controls"):
     cp1, cp2, cp3, cp4, cp5 = st.columns([1.2, 1.2, 1.2, 1.4, 0.9])
 
     with cp1:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Season</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Season</div>", unsafe_allow_html=True)
         def_szn_idx = seasons_list.index("2024/25") if "2024/25" in seasons_list else len(seasons_list)-1
         sel_season = st.selectbox("Season", seasons_list, index=def_szn_idx, label_visibility="collapsed", key="mo_sel_season")
 
     with cp2:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Home team</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Home team</div>", unsafe_allow_html=True)
         def_home_idx = teams_list.index("Arsenal") if "Arsenal" in teams_list else 0
         sel_home = st.selectbox("Home team", teams_list, index=def_home_idx, label_visibility="collapsed", key="mo_sel_home")
 
     with cp3:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Away team</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Away team</div>", unsafe_allow_html=True)
         def_away_idx = teams_list.index("Chelsea") if "Chelsea" in teams_list else (1 if len(teams_list)>1 else 0)
         sel_away = st.selectbox("Away team", teams_list, index=def_away_idx, label_visibility="collapsed", key="mo_sel_away")
 
     with cp4:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Feature set</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Feature set</div>", unsafe_allow_html=True)
         feat_mode_sel = st.radio("Feature set", ["Pre-match form", "In-match stats"], index=0, horizontal=True, label_visibility="collapsed", key="mo_feat_mode")
         feat_mode = "pre_match" if feat_mode_sel == "Pre-match form" else "in_match"
 
     with cp5:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Tree depth</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Tree depth</div>", unsafe_allow_html=True)
         tree_depth = st.number_input("Tree depth", min_value=1, max_value=10, value=4, step=1, label_visibility="collapsed", key="mo_tree_depth")
 
     st.markdown("<div style='height:4px;'></div>", unsafe_allow_html=True)
     predict_btn = st.button("Predict fixture", type="primary", key="mo_predict_btn")
 
     st.markdown("""
-    <div style="font-size:0.75rem; color:#94A3B8; margin-top:10px; border-top:1px solid #F1F5F9; padding-top:8px;">
+    <div style="font-size:0.75rem; color:var(--mute); margin-top:10px; border-top:1px solid var(--line); padding-top:8px;">
     Both models are trained once on all 20,520 team-match records (16,416 train, 4,104 test, stratified). The fixture selection only chooses what to predict. Goals are never used as features.
     </div>
     """, unsafe_allow_html=True)
@@ -219,7 +218,7 @@ dt_metrics = res["dt_metrics"]
 nb_metrics = res["nb_metrics"]
 
 # ── 3. Predict Selected Fixture ─────────────────────────────────────────────
-tm_all = load_team_match()
+tm_all = load_team_match().copy()
 teams_map = load_dim_team().set_index("Team_ID")["Team_Name"].to_dict()
 tm_all["Opp_Team_Name"] = tm_all["Opp_ID"].map(teams_map)
 
@@ -285,58 +284,58 @@ p1, p2, p3 = st.columns(3)
 with p1:
     dt_color = "#2563EB" if dt_pred_label == "Win" else ("#64748B" if dt_pred_label == "Draw" else "#DC2626")
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:1.02rem; font-weight:700; margin-bottom:2px;">Decision Tree</div>
-<div style="color:#64748B; font-size:0.78rem; margin-bottom:12px;">Predicted outcome for the selected fixture</div>
+<div style="color:var(--ink); font-size:1.02rem; font-weight:700; margin-bottom:2px;">Decision Tree</div>
+<div style="color:var(--mute); font-size:0.78rem; margin-bottom:12px;">Predicted outcome for the selected fixture</div>
 <div style="font-size:1.75rem; font-weight:700; color:{dt_color}; margin-bottom:14px;">[{dt_pred_label}]</div>
 <div style="display:flex; align-items:center; margin-bottom:6px; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Win</div>
+    <div style="width:42px; color:var(--mute);">Win</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
-        <div style="background:#2563EB; height:8px; width:{dt_w_pct}%; border-radius:4px;"></div>
+        <div style="background:var(--acc); height:8px; width:{dt_w_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{dt_w_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{dt_w_pct}%</div>
 </div>
 <div style="display:flex; align-items:center; margin-bottom:6px; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Draw</div>
+    <div style="width:42px; color:var(--mute);">Draw</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
         <div style="background:#64748B; height:8px; width:{dt_d_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{dt_d_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{dt_d_pct}%</div>
 </div>
 <div style="display:flex; align-items:center; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Loss</div>
+    <div style="width:42px; color:var(--mute);">Loss</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
         <div style="background:#DC2626; height:8px; width:{dt_l_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{dt_l_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{dt_l_pct}%</div>
 </div>
 </div>""", unsafe_allow_html=True)
 
 with p2:
     nb_color = "#2563EB" if nb_pred_label == "Win" else ("#64748B" if nb_pred_label == "Draw" else "#DC2626")
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:1.02rem; font-weight:700; margin-bottom:2px;">Naive Bayes</div>
-<div style="color:#64748B; font-size:0.78rem; margin-bottom:12px;">Predicted outcome for the selected fixture</div>
+<div style="color:var(--ink); font-size:1.02rem; font-weight:700; margin-bottom:2px;">Naive Bayes</div>
+<div style="color:var(--mute); font-size:0.78rem; margin-bottom:12px;">Predicted outcome for the selected fixture</div>
 <div style="font-size:1.75rem; font-weight:700; color:{nb_color}; margin-bottom:14px;">[{nb_pred_label}]</div>
 <div style="display:flex; align-items:center; margin-bottom:6px; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Win</div>
+    <div style="width:42px; color:var(--mute);">Win</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
-        <div style="background:#2563EB; height:8px; width:{nb_w_pct}%; border-radius:4px;"></div>
+        <div style="background:var(--acc); height:8px; width:{nb_w_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{nb_w_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{nb_w_pct}%</div>
 </div>
 <div style="display:flex; align-items:center; margin-bottom:6px; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Draw</div>
+    <div style="width:42px; color:var(--mute);">Draw</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
         <div style="background:#64748B; height:8px; width:{nb_d_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{nb_d_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{nb_d_pct}%</div>
 </div>
 <div style="display:flex; align-items:center; font-size:0.84rem;">
-    <div style="width:42px; color:#475569;">Loss</div>
+    <div style="width:42px; color:var(--mute);">Loss</div>
     <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 10px;">
         <div style="background:#DC2626; height:8px; width:{nb_l_pct}%; border-radius:4px;"></div>
     </div>
-    <div style="width:36px; text-align:right; font-weight:600; color:#0F172A;">{nb_l_pct}%</div>
+    <div style="width:36px; text-align:right; font-weight:600; color:var(--ink);">{nb_l_pct}%</div>
 </div>
 </div>""", unsafe_allow_html=True)
 
@@ -345,13 +344,13 @@ with p3:
     agree_color = "#10B981" if models_agree else "#F59E0B"
     act_str = f"[{actual_res_code}]" if actual_res_code else "[N/A (unplayed)]"
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:1.02rem; font-weight:700; margin-bottom:2px;">Model agreement</div>
-<div style="color:#64748B; font-size:0.78rem; margin-bottom:12px;">Do the two models predict the same outcome?</div>
+<div style="color:var(--ink); font-size:1.02rem; font-weight:700; margin-bottom:2px;">Model agreement</div>
+<div style="color:var(--mute); font-size:0.78rem; margin-bottom:12px;">Do the two models predict the same outcome?</div>
 <div style="font-size:1.75rem; font-weight:700; color:{agree_color}; margin-bottom:14px;">[{agree_str}]</div>
-<div style="font-size:0.82rem; color:#475569; margin-bottom:8px;">
+<div style="font-size:0.82rem; color:var(--mute); margin-bottom:8px;">
 On the test set the two models agree on <b>{test_agree_pct}%</b> of rows.
 </div>
-<div style="font-size:0.82rem; color:#475569;">
+<div style="font-size:0.82rem; color:var(--mute);">
 Actual result (if the fixture is historical): <b>{act_str}</b>
 </div>
 </div>""", unsafe_allow_html=True)
@@ -415,8 +414,8 @@ with c_perf:
     nb_rec = nb_rep.loc["weighted avg", "recall"] if "weighted avg" in nb_rep.index else 0.465
 
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:1.02rem; font-weight:700; margin-bottom:2px;">Model performance</div>
-<div style="color:#64748B; font-size:0.78rem; margin-bottom:12px;">Weighted averages on the test set.</div>
+<div style="color:var(--ink); font-size:1.02rem; font-weight:700; margin-bottom:2px;">Model performance</div>
+<div style="color:var(--mute); font-size:0.78rem; margin-bottom:12px;">Weighted averages on the test set.</div>
 <table class="mo-table">
 <thead>
 <tr>
@@ -435,7 +434,7 @@ with c_perf:
 <td>{dt_rec:.3f}</td>
 <td>{dt_f1:.3f}</td>
 </tr>
-<tr style="background:#EFF6FF;">
+<tr style="background:var(--chip);">
 <td style="font-weight:700;">Naive Bayes</td>
 <td style="font-weight:700;">{nb_metrics['accuracy']:.3f}</td>
 <td style="font-weight:700;">{nb_prec:.3f}</td>
@@ -444,7 +443,7 @@ with c_perf:
 </tr>
 </tbody>
 </table>
-<div style="font-size:0.78rem; color:#64748B; margin-top:14px; line-height:1.4;">
+<div style="font-size:0.78rem; color:var(--mute); margin-top:14px; line-height:1.4;">
 Per-class F1, Win / Draw / Loss: tree 0.49 / 0.00 / 0.53, Naive Bayes 0.53 / 0.00 / 0.52. Neither model ever predicts a draw, so draw precision and recall are 0.
 </div>
 </div>""", unsafe_allow_html=True)
@@ -462,11 +461,11 @@ with c_attr:
             pct = min(100, int((val / max_mi) * 100))
             pct = max(pct, 2)
             attr_rows_html += f"""<div style="display:flex; align-items:center; margin-bottom:10px; font-size:0.84rem;">
-<div style="width:115px; color:#1E293B; font-weight:500;">{feat}</div>
+<div style="width:115px; color:var(--ink); font-weight:500;">{feat}</div>
 <div style="flex:1; background:#EEF2F6; height:8px; border-radius:4px; margin:0 12px; position:relative;">
-<div style="background:#2563EB; height:8px; width:{pct}%; border-radius:4px;"></div>
+<div style="background:var(--acc); height:8px; width:{pct}%; border-radius:4px;"></div>
 </div>
-<div style="width:52px; text-align:right; font-weight:700; color:#0F172A; font-size:0.84rem;">{val:.4f}</div>
+<div style="width:52px; text-align:right; font-weight:700; color:var(--ink); font-size:0.84rem;">{val:.4f}</div>
 </div>"""
         st.markdown(attr_rows_html, unsafe_allow_html=True)
 
@@ -503,7 +502,7 @@ with c_dt_cm:
     c22_bg, c22_fg = get_cm_color(dt_cm[2,2], max_cm)
 
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:0.92rem; font-weight:700;"><b>Decision Tree</b> <span style="font-weight:400; color:#64748B;">• rows actual, columns predicted</span></div>
+<div style="color:var(--ink); font-size:0.92rem; font-weight:700;"><b>Decision Tree</b> <span style="font-weight:400; color:var(--mute);">• rows actual, columns predicted</span></div>
 <table class="cm-table">
 <tr>
     <th class="cm-header-cell"></th>
@@ -544,7 +543,7 @@ with c_nb_cm:
     b22_bg, b22_fg = get_cm_color(nb_cm[2,2], max_cm)
 
     st.markdown(f"""<div class="mo-card">
-<div style="color:#0F172A; font-size:0.92rem; font-weight:700;"><b>Naive Bayes</b> <span style="font-weight:400; color:#64748B;">• rows actual, columns predicted</span></div>
+<div style="color:var(--ink); font-size:0.92rem; font-weight:700;"><b>Naive Bayes</b> <span style="font-weight:400; color:var(--mute);">• rows actual, columns predicted</span></div>
 <table class="cm-table">
 <tr>
     <th class="cm-header-cell"></th>
@@ -586,33 +585,33 @@ top_feat_imp = tree_importances.iloc[0]
 
 st.markdown(f"""<div class="mo-card">
 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; cursor:pointer;">
-<span style="font-size:0.8rem; color:#64748B;">▼</span>
-<span style="color:#0F172A; font-size:0.96rem; font-weight:700;">Technical details</span>
+<span style="font-size:0.8rem; color:var(--mute);">▼</span>
+<span style="color:var(--ink); font-size:0.96rem; font-weight:700;">Technical details</span>
 </div>
 <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; font-size:0.82rem;">
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Decision Tree</div>
-<div style="color:#0F172A; font-weight:500;">scikit-learn, Gini criterion, max depth {tree_depth}, {n_leaves} leaves</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Decision Tree</div>
+<div style="color:var(--ink); font-weight:500;">scikit-learn, Gini criterion, max depth {tree_depth}, {n_leaves} leaves</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Most used feature in the tree</div>
-<div style="color:#0F172A; font-weight:500;">{top_feat_name} ({top_feat_imp:.2f} importance)</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Most used feature in the tree</div>
+<div style="color:var(--ink); font-weight:500;">{top_feat_name} ({top_feat_imp:.2f} importance)</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Naive Bayes</div>
-<div style="color:#0F172A; font-weight:500;">Gaussian, class priors Win 0.39, Draw 0.23, Loss 0.39</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Naive Bayes</div>
+<div style="color:var(--ink); font-weight:500;">Gaussian, class priors Win 0.39, Draw 0.23, Loss 0.39</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Target</div>
-<div style="color:#0F172A; font-weight:500;">Result (W, D, L) from Fact_Team_Match</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Target</div>
+<div style="color:var(--ink); font-weight:500;">Result (W, D, L) from Fact_Team_Match</div>
 </div>
 <div style="grid-column: span 2;">
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Features</div>
-<div style="color:#0F172A; font-weight:500;">{feat_str}</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Features</div>
+<div style="color:var(--ink); font-weight:500;">{feat_str}</div>
 </div>
 <div style="grid-column: span 2;">
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">Split</div>
-<div style="color:#0F172A; font-weight:500;">80% train, 20% test, stratified, random_state 0</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">Split</div>
+<div style="color:var(--ink); font-weight:500;">80% train, 20% test, stratified, random_state 0</div>
 </div>
 </div>
 </div>""", unsafe_allow_html=True)

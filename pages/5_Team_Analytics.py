@@ -53,8 +53,8 @@ html, body, .stApp {
 
 /* Card Container */
 .ta-card, [class*="st-key-card_"] {
-    background: #FFFFFF;
-    border: 1px solid #D5DBE6;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 16px 18px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -64,8 +64,8 @@ html, body, .stApp {
 
 /* Metric Cards */
 .ta-metric-box {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
+    background: var(--card);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 16px 18px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
@@ -73,7 +73,7 @@ html, body, .stApp {
     height: 100%;
 }
 .ta-metric-title {
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -81,21 +81,21 @@ html, body, .stApp {
     margin-bottom: 3px;
 }
 .ta-metric-val {
-    color: #0F172A;
+    color: var(--ink);
     font-size: 1.7rem;
     font-weight: 700;
     line-height: 1.15;
     margin-bottom: 3px;
 }
 .ta-metric-sub {
-    color: #94A3B8;
+    color: var(--mute);
     font-size: 0.74rem;
 }
 
 /* Meta Pill */
 .meta-pill {
-    background: #F1F5F9;
-    color: #475569;
+    background: var(--chip);
+    color: var(--mute);
     font-size: 0.75rem;
     padding: 3px 10px;
     border-radius: 6px;
@@ -105,7 +105,7 @@ html, body, .stApp {
     font-weight: 500;
 }
 .meta-pill b {
-    color: #0F172A;
+    color: var(--ink);
     font-weight: 700;
 }
 
@@ -116,18 +116,18 @@ html, body, .stApp {
 }
 .ta-table th {
     text-align: left;
-    color: #64748B;
+    color: var(--mute);
     font-size: 0.74rem;
     font-weight: 700;
     text-transform: uppercase;
     padding: 8px 10px 10px 10px;
-    border-bottom: 1px solid #E2E8F0;
+    border-bottom: 1px solid var(--line);
 }
 .ta-table td {
     padding: 9px 10px;
-    color: #0F172A;
+    color: var(--ink);
     font-size: 0.84rem;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid var(--line);
 }
 .ta-table tr:last-child td {
     border-bottom: none;
@@ -135,7 +135,7 @@ html, body, .stApp {
 
 /* Primary Button */
 div[data-testid="stButton"] > button[kind="primary"] {
-    background-color: #2563EB !important;
+    background-color: var(--acc) !important;
     color: #FFFFFF !important;
     font-weight: 600 !important;
     border-radius: 8px !important;
@@ -145,8 +145,8 @@ div[data-testid="stButton"] > button[kind="primary"] {
 
 /* Small Card Header Badge */
 .ta-badge {
-    background: #F1F5F9;
-    color: #64748B;
+    background: var(--chip);
+    color: var(--mute);
     font-size: 0.7rem;
     font-weight: 700;
     padding: 2px 7px;
@@ -157,11 +157,11 @@ div[data-testid="stButton"] > button[kind="primary"] {
 """, unsafe_allow_html=True)
 
 # ── Top Breadcrumbs & Header Bar ─────────────────────────────────────────────
-st.markdown("<div style='color:#64748B; font-size:0.8rem; margin-bottom:2px;'>Admin / Team Analytics</div>", unsafe_allow_html=True)
+st.markdown("<div style='color:var(--mute); font-size:0.8rem; margin-bottom:2px;'>Admin / Team Analytics</div>", unsafe_allow_html=True)
 
 c_head_l, c_head_r = st.columns([3, 1.2])
 with c_head_l:
-    st.markdown("<h1 style='color:#0F172A; font-size:2.2rem; font-weight:700; margin:0 0 6px 0;'>Team Analytics</h1>", unsafe_allow_html=True)
+    pass
 
 with c_head_r:
     st.markdown("""
@@ -170,7 +170,7 @@ with c_head_r:
         <div style="background:#ECFDF5; color:#059669; font-size:0.76rem; font-weight:600; padding:4px 10px; border-radius:20px; display:flex; align-items:center; gap:5px;">
             <span style="height:6px; width:6px; background:#10B981; border-radius:50%; display:inline-block;"></span> System Online
         </div>
-        <div style="background:#F1F5F9; color:#1E293B; font-size:0.78rem; font-weight:600; padding:4px 10px; border-radius:20px;">
+        <div style="background:var(--chip); color:var(--ink); font-size:0.78rem; font-weight:600; padding:4px 10px; border-radius:20px;">
             Admin
         </div>
     </div>
@@ -188,23 +188,23 @@ with st.container(key="card_ta_controls"):
     cp1, cp2, cp3, cp4, cp5, cp6 = st.columns([1.1, 1.3, 1.2, 1.1, 1.1, 0.9])
 
     with cp1:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Level</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Level</div>", unsafe_allow_html=True)
         sel_level = st.selectbox("Level", ["Team + Season", "Team all-time"], index=0, label_visibility="collapsed", key="ta_level")
 
     with cp2:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Method</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Method</div>", unsafe_allow_html=True)
         sel_method = st.radio("Method", ["K-Means", "Agglomerative"], index=0, horizontal=True, label_visibility="collapsed", key="ta_method")
 
     with cp3:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Clusters K (recommended 2)</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Clusters K (recommended 2)</div>", unsafe_allow_html=True)
         k_val = st.number_input("Clusters K", min_value=2, max_value=8, value=2, step=1, label_visibility="collapsed", key="ta_k_val")
 
     with cp4:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Highlight team</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Highlight team</div>", unsafe_allow_html=True)
         hl_team = st.selectbox("Highlight team", team_list, index=0, label_visibility="collapsed", key="ta_hl_team")
 
     with cp5:
-        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:#334155; margin-bottom:6px;'>Highlight season</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:600; color:var(--ink); margin-bottom:6px;'>Highlight season</div>", unsafe_allow_html=True)
         hl_season = st.selectbox("Highlight season", season_list, index=0, label_visibility="collapsed", key="ta_hl_season")
 
     with cp6:
@@ -215,7 +215,7 @@ with st.container(key="card_ta_controls"):
     st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
     f_row_l, f_row_r = st.columns([0.8, 4.2])
     with f_row_l:
-        st.markdown("<div style='font-size:0.78rem; font-weight:700; color:#64748B; padding-top:4px;'>FEATURES</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size:0.78rem; font-weight:700; color:var(--mute); padding-top:4px;'>FEATURES</div>", unsafe_allow_html=True)
 
     with f_row_r:
         fc1, fc2, fc3, fc4, fc5, fc6, fc7 = st.columns(7)
@@ -317,7 +317,7 @@ with m1:
 with m2:
     st.markdown(f"""<div class="ta-metric-box">
 <div class="ta-metric-title">SILHOUETTE K-MEANS</div>
-<div class="ta-metric-val" style="color:#2563EB;">{km_sil:.3f}</div>
+<div class="ta-metric-val" style="color:var(--acc);">{km_sil:.3f}</div>
 <div class="ta-metric-sub">K = {k_val}</div>
 </div>""", unsafe_allow_html=True)
 
@@ -359,7 +359,7 @@ with r1_c1:
     with st.container(key="card_elbow_method"):
         st.markdown("""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Elbow method · inertia</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Elbow method · inertia</h3>
             <span class="ta-badge">LAB 7</span>
         </div>
         """, unsafe_allow_html=True)
@@ -388,7 +388,7 @@ with r1_c2:
     with st.container(key="card_silhouette_score"):
         st.markdown("""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Silhouette score by K</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Silhouette score by K</h3>
             <span class="ta-badge">LAB 7</span>
         </div>
         """, unsafe_allow_html=True)
@@ -435,7 +435,7 @@ with r2_c1:
     with st.container(key="card_cluster_map_pca"):
         st.markdown(f"""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Cluster map · {sel_method}, K = {k_val}</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Cluster map · {sel_method}, K = {k_val}</h3>
             <span class="ta-badge">PCA PROJECTION</span>
         </div>
         """, unsafe_allow_html=True)
@@ -527,7 +527,7 @@ with r2_c2:
     with st.container(key="card_dendrogram"):
         st.markdown("""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Dendrogram · Ward linkage</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Dendrogram · Ward linkage</h3>
             <span class="ta-badge">LAB 8</span>
         </div>
         """, unsafe_allow_html=True)
@@ -594,10 +594,10 @@ if is_filtering and not hl_sub.empty:
     with st.container(key="card_classification_matrix"):
         st.markdown(f"""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">🎯 {hl_season if hl_season!='All seasons' else hl_team} Club Classification Matrix</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">🎯 {hl_season if hl_season!='All seasons' else hl_team} Club Classification Matrix</h3>
             <span class="ta-badge">{len(hl_sub)} CLUBS CLASSIFIED · {sel_method.upper()}</span>
         </div>
-        <div style="font-size:0.8rem; color:#64748B; margin-bottom:12px;">
+        <div style="font-size:0.8rem; color:var(--mute); margin-bottom:12px;">
         Exact cluster assignment and performance statistics for all teams in <b>{hl_season if hl_season!='All seasons' else hl_team}</b> based on active {len(active_features)} features.
         </div>
         <table class="ta-table">
@@ -658,7 +658,7 @@ tot_cor = working_df["Corners_mean"].mean()
 tot_fl = working_df["Fouls_mean"].mean()
 tot_pts = working_df["Pts_per_Match"].mean()
 
-cluster_rows_html += f"""<tr style="background:#F8FAFC; font-weight:700;">
+cluster_rows_html += f"""<tr style="background:var(--card); font-weight:700;">
 <td>All profiles</td>
 <td>{obs_count}</td>
 <td>{tot_gf:.2f}</td>
@@ -673,7 +673,7 @@ cluster_rows_html += f"""<tr style="background:#F8FAFC; font-weight:700;">
 with st.container(key="card_cluster_profiles"):
     st.markdown(f"""
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Cluster profiles - centroids in original units</h3>
+        <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Cluster profiles - centroids in original units</h3>
         <span class="ta-badge">MEAN PER PROFILE</span>
     </div>
     <table class="ta-table">
@@ -694,7 +694,7 @@ with st.container(key="card_cluster_profiles"):
     {cluster_rows_html}
     </tbody>
     </table>
-    <div style="font-size:0.75rem; color:#94A3B8; margin-top:10px;">
+    <div style="font-size:0.75rem; color:var(--mute); margin-top:10px;">
     Names are generated from the profile: clusters are ranked by mean points per match.
     </div>
     """, unsafe_allow_html=True)
@@ -728,7 +728,7 @@ with c_hm:
     with st.container(key="card_centroid_heatmap"):
         st.markdown(f"""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Centroid heatmap · standardised</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Centroid heatmap · standardised</h3>
             <span class="ta-badge">Z-SCORE</span>
         </div>
         <table class="ta-table" style="border-collapse:separate; border-spacing:4px 6px;">
@@ -742,7 +742,7 @@ with c_hm:
         {hm_rows_html}
         </tbody>
         </table>
-        <div style="font-size:0.75rem; color:#94A3B8; margin-top:8px;">
+        <div style="font-size:0.75rem; color:var(--mute); margin-top:8px;">
         Blue = above average, orange = below average.
         </div>
         """, unsafe_allow_html=True)
@@ -764,7 +764,7 @@ with c_ari:
     with st.container(key="card_kmeans_vs_agglo"):
         st.markdown(f"""
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">K-Means vs Agglomerative</h3>
+            <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">K-Means vs Agglomerative</h3>
             <span class="ta-badge">LAB 7 · LAB 8</span>
         </div>
         <table class="ta-table" style="margin-bottom:16px;">
@@ -778,17 +778,17 @@ with c_ari:
         {ct_rows_html}
         </tbody>
         </table>
-        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; border-top:1px solid #F1F5F9; padding-top:12px;">
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; border-top:1px solid var(--line); padding-top:12px;">
             <div>
-                <div style="color:#64748B; font-size:0.7rem; font-weight:700;">ADJUSTED RAND</div>
-                <div style="color:#0F172A; font-size:1.4rem; font-weight:700;">{ari_val:.3f}</div>
+                <div style="color:var(--mute); font-size:0.7rem; font-weight:700;">ADJUSTED RAND</div>
+                <div style="color:var(--ink); font-size:1.4rem; font-weight:700;">{ari_val:.3f}</div>
             </div>
             <div>
-                <div style="color:#64748B; font-size:0.7rem; font-weight:700;">SILHOUETTE K-MEANS</div>
-                <div style="color:#2563EB; font-size:1.4rem; font-weight:700;">{km_sil:.3f}</div>
+                <div style="color:var(--mute); font-size:0.7rem; font-weight:700;">SILHOUETTE K-MEANS</div>
+                <div style="color:var(--acc); font-size:1.4rem; font-weight:700;">{km_sil:.3f}</div>
             </div>
             <div>
-                <div style="color:#64748B; font-size:0.7rem; font-weight:700;">SILHOUETTE AGGLO.</div>
+                <div style="color:var(--mute); font-size:0.7rem; font-weight:700;">SILHOUETTE AGGLO.</div>
                 <div style="color:#EA580C; font-size:1.4rem; font-weight:700;">{agg_sil:.3f}</div>
             </div>
         </div>
@@ -823,7 +823,7 @@ for rank_idx in range(k_val):
 with st.container(key="card_cluster_membership"):
     st.markdown(f"""
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3 style="color:#0F172A; font-size:1.02rem; font-weight:700; margin:0;">Cluster membership</h3>
+        <h3 style="color:var(--ink); font-size:1.02rem; font-weight:700; margin:0;">Cluster membership</h3>
         <span class="ta-badge">MOST FREQUENT TEAMS · TOP PERFORMERS BY POINTS PER MATCH</span>
     </div>
     <table class="ta-table">
@@ -845,33 +845,33 @@ st.markdown("<div style='height:4px;'></div>", unsafe_allow_html=True)
 # ── 10. Technical Details Box ───────────────────────────────────────────────
 st.markdown("""<div class="ta-card">
 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; cursor:pointer;">
-<span style="font-size:0.8rem; color:#64748B;">▼</span>
-<span style="color:#0F172A; font-size:0.96rem; font-weight:700;">Technical details</span>
+<span style="font-size:0.8rem; color:var(--mute);">▼</span>
+<span style="color:var(--ink); font-size:0.96rem; font-weight:700;">Technical details</span>
 </div>
 <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; font-size:0.82rem;">
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">K-MEANS</div>
-<div style="color:#0F172A; font-weight:500;">scikit-learn, k-means++, n_init 10, random_state 0, K from silhouette</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">K-MEANS</div>
+<div style="color:var(--ink); font-weight:500;">scikit-learn, k-means++, n_init 10, random_state 0, K from silhouette</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">AGGLOMERATIVE</div>
-<div style="color:#0F172A; font-weight:500;">scipy linkage, Ward, cut with fcluster maxclust</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">AGGLOMERATIVE</div>
+<div style="color:var(--ink); font-weight:500;">scipy linkage, Ward, cut with fcluster maxclust</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">PREPROCESSING</div>
-<div style="color:#0F172A; font-weight:500;">Standardised (zero mean, unit variance) across active selected features</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">PREPROCESSING</div>
+<div style="color:var(--ink); font-weight:500;">Standardised (zero mean, unit variance) across active selected features</div>
 </div>
 <div>
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">CLUSTER NAMES</div>
-<div style="color:#0F172A; font-weight:500;">Ranked dynamically from mean points per match, never hard-coded</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">CLUSTER NAMES</div>
+<div style="color:var(--ink); font-weight:500;">Ranked dynamically from mean points per match, never hard-coded</div>
 </div>
 <div style="grid-column: span 2;">
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">TRAINING SCOPE</div>
-<div style="color:#0F172A; font-weight:500;">Clustering computed dynamically across selected level and features with clear highlighting on selected seasons.</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">TRAINING SCOPE</div>
+<div style="color:var(--ink); font-weight:500;">Clustering computed dynamically across selected level and features with clear highlighting on selected seasons.</div>
 </div>
 <div style="grid-column: span 2;">
-<div style="color:#64748B; font-size:0.74rem; margin-bottom:2px;">INTERPRETATION</div>
-<div style="color:#0F172A; font-weight:500;">Silhouette favours K = 2. A larger K can be chosen for more detailed styles, and must be justified in the report.</div>
+<div style="color:var(--mute); font-size:0.74rem; margin-bottom:2px;">INTERPRETATION</div>
+<div style="color:var(--ink); font-weight:500;">Silhouette favours K = 2. A larger K can be chosen for more detailed styles, and must be justified in the report.</div>
 </div>
 </div>
 </div>""", unsafe_allow_html=True)

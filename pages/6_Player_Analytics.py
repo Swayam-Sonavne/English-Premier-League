@@ -7,15 +7,15 @@ Matches the UI Inspiration Mockup for Player Analytics / Comparison (Labs 2 & 3)
       * Sidebar: #060A14 (Dark) / #0B1220 (Light)
       * Card / Input / KPI strip: #111A2E (Dark) / #FFFFFF (Light)
       * Chip and tag fill: #17223A (Dark) / #EEF2F8 / #F4F7FC (Light)
-      * Card border: #25314A (Dark) / #D5DBE6 (Light)
+      * Card border: #25314A (Dark) / var(--line) (Light)
       * Dividers / grid lines: #1E2940 (Dark) / #E6EAF0 (Light)
-      * Chip border: #2B3957 (Dark) / #DDE3EE (Light)
-      * Input border: #34425F (Dark) / #C5CDDB (Light)
+      * Chip border: #2B3957 (Dark) / var(--line) (Light)
+      * Input border: #34425F (Dark) / var(--line) (Light)
       * Primary text: #E6ECF7 (Dark) / #0B1220 (Light)
       * Muted text: #94A3B8 (Dark) / #5B6578 (Light)
       * Faint text: #64748B (Dark) / #9AA4B2 (Light)
-      * Primary blue: #3B82F6 (Dark) / #2563EB (Light)
-      * Amber: #F59E0B (Dark) / #D97706 (Light)
+      * Primary blue: var(--acc) (Dark) / #2563EB (Light)
+      * Amber: var(--pk) (Dark) / #D97706 (Light)
       * Online status dot: #16A34A
       * Form played cells: #2B4A86 (Dark) / #BFD0F7 (Light)
       * Z-score shading: 8-43% scaled opacity
@@ -213,8 +213,6 @@ default_mode = st.session_state.get("pa_mode_state", "Single player")
 c_head_l, c_head_r = st.columns([3, 1.2])
 with c_head_l:
     sub_title = "Single player" if default_mode == "Single player" else "Compare"
-    st.markdown(f"<div style='color:{c_text_muted}; font-size:0.8rem; margin-bottom:2px;'>Admin / Player Analytics / {sub_title}</div>", unsafe_allow_html=True)
-    st.markdown(f"<h1 style='color:{c_text_primary}; font-size:2.2rem; font-weight:700; margin:0 0 6px 0;'>{'Player Analysis' if default_mode == 'Single player' else 'Player Comparison'}</h1>", unsafe_allow_html=True)
 
 with c_head_r:
     st.markdown(f"""

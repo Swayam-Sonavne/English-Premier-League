@@ -212,11 +212,11 @@ div[data-testid="stButton"] > button[kind="primary"] {{
 """, unsafe_allow_html=True)
 
 # ── Top Breadcrumbs & Header ────────────────────────────────────────────────
-st.html(f"<div style='color:{t['text_muted']}; font-size:0.8rem; margin-bottom:2px;'>Admin / Association Analysis</div>")
+
 
 head_l, head_r = st.columns([3, 1.2])
 with head_l:
-    st.html(f"<h1 style='color:{t['text_primary']}; font-size:2.2rem; font-weight:800; margin:0 0 6px 0; letter-spacing:-0.02em;'>Association Analysis</h1>")
+    pass
 
 with head_r:
     st.html(f"""<div style="display:flex; justify-content:flex-end; align-items:center; gap:8px; height:100%; padding-top:6px;">
@@ -912,11 +912,11 @@ with r4_c2:
 
         st.html(f"""<div style="display:flex; justify-content:center; gap:20px; font-size:0.75rem; color:{t['text_muted']}; margin-top:4px;">
     <div style="display:flex; align-items:center; gap:6px;">
-        <span style="width:10px; height:10px; background-color:#F59E0B; border-radius:2px; display:inline-block;"></span>
+        <span style="width:10px; height:10px; background-color:var(--pk); border-radius:2px; display:inline-block;"></span>
         <span>Lift &lt; 1 (appear together less than chance)</span>
     </div>
     <div style="display:flex; align-items:center; gap:6px;">
-        <span style="width:10px; height:10px; background-color:#2563EB; border-radius:2px; display:inline-block;"></span>
+        <span style="width:10px; height:10px; background-color:var(--acc); border-radius:2px; display:inline-block;"></span>
         <span>Lift &gt; 1 (more than chance)</span>
     </div>
 </div>""")

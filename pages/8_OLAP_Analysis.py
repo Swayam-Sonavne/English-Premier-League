@@ -35,16 +35,7 @@ from utils.olap import (
     olap_dice, olap_pivot, olap_drill_across,
 )
 
-# ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("""
-<div style="background:linear-gradient(135deg, #0d1b2a, #1e3a5f); padding:20px; border-radius:10px; margin-bottom:18px; color:#ffffff;">
-    <span style="background:#e8b84b; color:#0d1b2a; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:800;">ADMIN LAYER • LAB 2</span>
-    <h1 style="color:#ffffff; margin:6px 0 2px 0; font-size:2rem;">📐 Multi-Dimensional OLAP Analysis</h1>
-    <p style="color:#cdd8e3; font-size:0.95rem; margin:0;">
-        Interactive Online Analytical Processing (OLAP) engine executing Roll-up, Drill-down, Slice, Dice, Pivot, and Drill-across over the Premier League Data Warehouse.
-    </p>
-</div>
-""", unsafe_allow_html=True)
+
 
 dwm_label("OLAP (Roll-up · Drill-down · Slice · Dice · Pivot · Drill-across)", 2)
 st.caption(
